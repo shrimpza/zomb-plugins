@@ -29,7 +29,7 @@
 		$request = file_get_contents('php://input');
 		$q = json_decode($request, true);
 		
-		if ($q['command'] == 'similar')	{
+		if ($q['command'] == 'similar') {
 			$similar = json_decode(file_get_contents($API_URL . '?method=artist.getsimilar&format=json'
 																. '&api_key=' . $API_KEY 
 																. '&limit=' . $API_LIMIT 
@@ -44,6 +44,28 @@
 					$r .= $a['name'];
 				}
 				respond($r, $similar['similarartists']['artist'][0]['image'][1]['#text']);
+			}
+		} else if ($q['command'] == 'listening') {
+			$listening = json_decode(file_get_contents($API_URL . '?method=user.getrecenttracks&format=json'
+																. '&api_key=' . $API_KEY 
+																. '&limit=' . $API_LIMIT 
+																. '&user=' . urlencode($q['args'][0])), true);
+
+			if (isset($listening['error'])) {
+				respond($listening['message'], 'https://i.imgur.com/1gnAwBI.png');
+			} else {
+				$r = '';
+				if (isset($listening['recenttracks']['track'][0])) {
+					$track = $listening['recenttracks']['track'][0];
+					if ($track['@attr']['nowplaying']) {
+						$r = sprintf('Currently listening to %s - %s', $track['artist']['#text'], $track['name']);
+					} else {
+						$r = sprintf('Listened to %s - %s on %s', $track['artist']['#text'], $track['name'], $track['date']['#text']);
+					}
+					respond($r, $track['image'][1]['#text']);
+				} else {
+					respond('User hasn\'t listened to anything...', 'https://i.imgur.com/1gnAwBI.png');
+				}
 			}
 		}
 	}
