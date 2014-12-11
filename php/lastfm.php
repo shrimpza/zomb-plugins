@@ -36,7 +36,7 @@
 																. '&artist=' . urlencode($q['args'][0])), true);
 
 			if (isset($similar['error'])) {
-				respond($similar['message'], 'https://i.imgur.com/SMQSw5C.png');
+				respond($similar['message'], 'https://i.imgur.com/1gnAwBI.png');
 			} else {
 				$r = '';
 				foreach ($similar['similarartists']['artist'] as $a) {
