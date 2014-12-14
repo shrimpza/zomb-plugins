@@ -12,7 +12,7 @@
 					'command' => 'convert',
 					'help' => 'convert from one currency to another. usage: convert [amount] <from-currency> <to-currency>',
 					'args' => 0,
-					'pattern' => '(\d )?[a-zA-Z]{3} [a-zA-Z]{3}'
+					'pattern' => '(\d+ )?[a-zA-Z]{3} [a-zA-Z]{3}'
 				)
 			)
 		);
@@ -21,7 +21,7 @@
 		$request = file_get_contents('php://input');
 		$q = json_decode($request, true);
 
-		$pattern = '/(\d )?([a-zA-Z]{3}) ([a-zA-Z]{3})/';
+		$pattern = '/(\d+ )?([a-zA-Z]{3}) ([a-zA-Z]{3})/';
 
 		if (preg_match($pattern, $q['args'][0], $args) == 0) {
 			respond('could not parse arguments ' . $q['args'][0], 'https://i.imgur.com/1gnAwBI.png');
