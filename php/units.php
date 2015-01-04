@@ -1,7 +1,7 @@
 <?php
 
 	// see https://github.com/shrimpza/units-api for the api used by this plugin
-	$API_URL = '';
+	$API_URL = 'http://tools.shrimpworks.za.net/units-api/convert.php';
 
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$plugin	= array(
