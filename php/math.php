@@ -27,7 +27,13 @@
 				$res = 'No expression provided, please provide a math expression';
 			} else {
 				$m = new EvalMath();
-				$res = $m->evaluate($q['args'][0]);
+				$m->suppress_errors = true;
+				$res =  $m->evaluate($q['args'][0]);
+				if (!isset($res) || empty($res)) {
+					$res = $m->last_error;
+				} else {
+					$res = $q['args'][0] . ' = ' . $res;
+				}
 			}
 
 			respond($res);
