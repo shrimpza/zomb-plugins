@@ -28,11 +28,11 @@
 			} else {
 				$m = new EvalMath();
 				$m->suppress_errors = true;
-				$res =  $m->evaluate($q['args'][0]);
+				$res = $m->evaluate(implode($q['args']));
 				if (!isset($res) || empty($res)) {
 					$res = $m->last_error;
 				} else {
-					$res = $q['args'][0] . ' = ' . $res;
+					$res = implode(' ', $q['args']) . ' = ' . $res;
 				}
 			}
 
