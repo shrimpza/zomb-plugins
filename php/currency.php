@@ -1,4 +1,5 @@
 <?php
+	// TODO refactor to make use of Yahoo: http://finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s=USDZAR=X
 
 	$API_URL = 'http://rate-exchange.appspot.com/currency';
 
