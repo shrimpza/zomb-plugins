@@ -1,7 +1,5 @@
 <?php
-	// TODO refactor to make use of Yahoo: http://finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s=USDZAR=X
-
-	$API_URL = 'http://rate-exchange.appspot.com/currency';
+	$API_URL = 'http://finance.yahoo.com/d/quotes.csv';
 
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$plugin	= array(
@@ -29,17 +27,19 @@
 		}
 		
 		if ($q['command'] == 'convert') {
-			$result = json_decode(file_get_contents($API_URL . '?from=' . $args[2] . '&to=' . $args[3]), true);
+			$result = file_get_contents($API_URL . '?f=sl1d1t1&s=' . $args[2] . $args[3] . '=X');
 
-			if (isset($result['err'])) {
-				respond($result['err'], 'https://i.imgur.com/1gnAwBI.png');
+			$result = explode(',', $result);
+
+			if ($result[1] == 'N/A') {
+				respond('No results for query', 'https://i.imgur.com/1gnAwBI.png');
 			} else {
 				$r = '';
 
 				$amount = empty($args[1]) ? 1 : $args[1];
-				$val = $result['rate'];
+				$val = $result[1];
 
-				respond(sprintf('%d %s = %f %s', $amount, $result['from'], $result['rate']*$amount, $result['to']));
+				respond(sprintf('%d %s = %f %s', $amount, $args[2], $val * $amount, $args[3]));
 			}
 		}
 	}
